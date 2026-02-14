@@ -1,0 +1,411 @@
+@import "variables";
+
+// ==============================
+// GLOBAL SECTION UTILS
+// ==============================
+section {
+  padding: 5rem 0;
+}
+
+.section-header {
+  margin-bottom: 3rem;
+
+  &.text-center {
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 2.2rem;
+    color: $secondary-color; // Dark Blue
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: $light-text;
+  }
+
+  // Flex header for the "View All" button row
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+
+  .view-all-link {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: gap 0.3s;
+
+    &:hover {
+      gap: 10px;
+    } // Arrow moves on hover
+  }
+}
+
+.hero-section {
+  position: relative;
+  height: 85vh;
+  background-image: url("../images/home-page-banner-image.webp");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+
+  // Dark Overlay (so text is readable)
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); // 40% dark tint
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2rem;
+    border-radius: 2rem;
+    backdrop-filter: blur(10px);
+  }
+
+  // Typography
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+
+    span {
+      color: $primary-color; // Your orange accent
+    }
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+    margin-bottom: 3rem;
+  }
+
+  // Glassmorphism Search Box
+  .hero-search-box {
+    background: rgba(255, 255, 255, 0.1); // Glass
+    backdrop-filter: blur(10px); // Blur effect
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px; // Pill shape
+    padding: 10px 10px 10px 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: none;
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      flex: 1; // Take up available space
+
+      label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: $primary-color;
+        margin-bottom: 2px;
+        text-transform: uppercase;
+      }
+
+      input {
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 1rem;
+        outline: none;
+        width: 100%;
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.6);
+        }
+        &::-webkit-calendar-picker-indicator {
+          filter: invert(1);
+        } // White calendar icon
+      }
+    }
+
+    .btn-search {
+      background-color: $primary-color;
+      color: #fff;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-search-box {
+      flex-direction: column;
+      border-radius: 20px;
+      padding: 20px;
+      gap: 15px;
+
+      .input-group {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+      }
+
+      .btn-search {
+        width: 100%;
+      }
+    }
+
+    .hero-content {
+      width: 80%;
+      padding: 2rem 1rem;
+      .hero-title {
+        font-size: 26px;
+      }
+      .hero-subtitle {
+        margin-bottom: 0;
+        font-size: 16px;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
+// ==============================
+// FEATURES SECTION
+// ==============================
+.features-section {
+  background-color: #fff;
+  max-width: 1280px;
+  margin: 0 auto;
+
+  .features-grid {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .feature-card {
+    padding: 2rem;
+    border-radius: 12px;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    border: 1px solid #e2e2e2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .icon-box {
+      font-size: 3rem;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: $text-color;
+    }
+    p {
+      color: #777;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      width: 80%;
+      text-wrap: wrap;
+      word-break: auto-phrase;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .container {
+      .section-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        h2 {
+          font-size: 26px;
+        }
+        p {
+          line-height: 1.4;
+        }
+      }
+
+      .features-grid {
+        flex-wrap: wrap;
+        padding: 0 2rem;
+        gap: 1rem;
+
+        .feature-card {
+          h3 {
+            font-size: 18px;
+          }
+          p {
+            font-size: 16px;
+            line-height: 1.4;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==============================
+// POPULAR PACKAGES SECTION
+// ==============================
+.popular-section {
+  background-color: $light-bg;
+  max-width: 1280px;
+  margin: 0 auto;
+
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  .package-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+
+      .card-img img {
+        transform: scale(1.05);
+      } // Zoom effect
+    }
+
+    .card-img {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .price-tag {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background: $primary-color;
+        color: #fff;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+    }
+
+    .card-content {
+      padding: 1.5rem;
+
+      .meta-tags {
+        display: flex;
+        gap: 15px;
+        font-size: 0.85rem;
+        color: $light-text;
+        margin-bottom: 10px;
+
+        i {
+          color: $primary-color;
+          margin-right: 5px;
+        }
+      }
+
+      h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: $secondary-color;
+      }
+
+      p {
+        color: $light-text;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+
+      .btn-book {
+        display: block;
+        text-align: center;
+        border: 1px solid $secondary-color;
+        color: $secondary-color;
+        padding: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: $secondary-color;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .container {
+      .section-header {
+        flex-direction: column;
+        align-items: start;
+        padding: 0 1rem;
+
+        h2 {
+          font-size: 26px;
+        }
+      }
+
+      .packages-grid {
+        grid-template-columns: repeat(1, minmax(320px, 1fr));
+        gap: 1rem;
+        padding: 0 1.5rem;
+      }
+    }
+  }
+}

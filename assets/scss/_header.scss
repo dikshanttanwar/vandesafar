@@ -1,0 +1,148 @@
+@import "variables"; // Ensure you have colors defined here
+
+.main-header {
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    @media screen and (max-width: 700px) {
+      padding: 1.5rem;
+    }
+  }
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  span {
+    color: $primary-color; // e.g., #e67e22
+  }
+}
+
+// Navigation Styling
+.navbar {
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+
+    a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+
+      &:hover,
+      &.active {
+        color: $primary-color;
+      }
+    }
+
+    // The "Contact" button style
+    .btn-contact {
+      background-color: $primary-color;
+      color: #fff !important; // Force white text
+      padding: 0.5rem 1.2rem;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+}
+
+// Hamburger Icon (Hidden on Desktop)
+.hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+
+  .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s ease;
+  }
+}
+
+// =========================================
+// MOBILE RESPONSIVENESS (Max-width: 768px)
+// =========================================
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex; // Show icon on mobile
+  }
+
+  .navbar {
+    position: absolute;
+    top: 100%; // Push it right below the header
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    // padding: 1rem 0;
+    // Hide menu by default
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      padding: 1rem 0;
+      gap: 0;
+
+      li {
+        // width: 100%;
+        text-align: center;
+
+        a {
+          display: block;
+          padding: 1rem;
+          border-bottom: 1px solid #eee;
+        }
+
+        // Adjust button for mobile
+        .btn-contact {
+          // background: none;
+          // color: $primary-color !important;
+          display: block;
+          width: fit-content;
+        }
+      }
+    }
+
+    // Class to show menu when clicked
+    &.active {
+      max-height: 300px; // Open the drawer
+    }
+  }
+
+  // Animate Hamburger to X
+  .hamburger.active {
+    .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+  }
+}

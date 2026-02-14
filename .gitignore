@@ -1,0 +1,9 @@
+# Ignore the configuration folder containing passwords
+config/
+
+# Ignore the uploads folder (too heavy for git)
+assets/images/
+
+# Ignore system files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Indian Tour & Travels</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --accent1: #89776e;
+        --accent2: #ff5e62;
+        --bg: #fdfdfd;
+        --dark: #222;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: var(--bg);
+        color: var(--dark);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Header */
+      header {
+        background: linear-gradient(135deg, var(--accent1), var(--accent2));
+        color: white;
+        padding: 14px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      .brand {
+        font-weight: 600;
+        font-size: 22px;
+        letter-spacing: 1px;
+      }
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 22px;
+        align-items: center;
+      }
+      nav li {
+        list-style: none;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        position: relative;
+        padding: 6px 8px;
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: color 0.25s;
+      }
+      nav a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        width: 0%;
+        height: 2px;
+        background: white;
+        transition: 0.28s;
+      }
+      nav a:hover {
+        color: #ffe8e8;
+      }
+      nav a:hover::after {
+        width: 100%;
+      }
+
+      /* stagger nav on load */
+      nav li:nth-child(1) a {
+        animation: navIn 0.45s ease 0.18s forwards;
+      }
+      nav li:nth-child(2) a {
+        animation: navIn 0.45s ease 0.34s forwards;
+      }
+      nav li:nth-child(3) a {
+        animation: navIn 0.45s ease 0.5s forwards;
+      }
+      nav li:nth-child(4) a {
+        animation: navIn 0.45s ease 0.66s forwards;
+      }
+      nav li:nth-child(5) a {
+        animation: navIn 0.45s ease 0.82s forwards;
+      }
+      @keyframes navIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Intro overlay */
+      #intro {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(7, 10, 12, 0.6); /* dark translucent */
+        z-index: 2200;
+        backdrop-filter: blur(8px) saturate(1.1);
+        -webkit-backdrop-filter: blur(8px) saturate(1.1);
+        transition: opacity 0.6s ease, visibility 0.6s ease;
+        visibility: visible;
+        opacity: 1;
+      }
+      #intro.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      #intro-card {
+        text-align: center;
+        padding: 28px 36px;
+        border-radius: 12px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.02)
+        );
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        max-width: 90%;
+      }
+      #intro-text {
+        color: #fff;
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 3px solid rgba(255, 255, 255, 0.9);
+        padding-right: 10px;
+        box-sizing: content-box;
+      }
+      /* blinking cursor */
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+      #intro-text.cursor-blink {
+        animation: blink 0.8s step-end infinite;
+      }
+
+      /* small subtext hint */
+      #intro-sub {
+        color: rgba(255, 255, 255, 0.85);
+        margin-top: 10px;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      /* SLIDER */
+      .hero-slider {
+        width: 100%;
+        margin: 0;
+        position: relative;
+        overflow: hidden;
+        height: 100vh;
+        min-height: 520px;
+      }
+      .slides {
+        display: flex;
+        height: 100%;
+        transition: transform 0.8s cubic-bezier(0.22, 0.9, 0.29, 1);
+        will-change: transform;
+      }
+      .slide {
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        flex-shrink: 0;
+      }
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Always-visible welcome small (optional) */
+      .welcome-top {
+        position: absolute;
+        top: 22px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 15;
+        color: rgba(255, 255, 255, 0.95);
+        font-weight: 700;
+        font-size: 18px;
+        text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+        padding: 6px 12px;
+        border-radius: 999px;
+        backdrop-filter: blur(4px);
+      }
+
+      .caption {
+        position: absolute;
+        left: 20px;
+        bottom: 28px;
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.62),
+          rgba(0, 0, 0, 0.38)
+        );
+        color: white;
+        padding: 12px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        backdrop-filter: blur(4px);
+        max-width: 76%;
+        z-index: 12;
+      }
+      .ctrl {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 999px;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+        cursor: pointer;
+        z-index: 12;
+      }
+      .ctrl-left {
+        left: 18px;
+      }
+      .ctrl-right {
+        right: 18px;
+      }
+      .ctrl svg {
+        width: 20px;
+        height: 20px;
+        fill: #222;
+      }
+      .dots {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 18px;
+        display: flex;
+        gap: 10px;
+        z-index: 12;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s, background 0.2s;
+      }
+      .dot.active {
+        background: white;
+        transform: scale(1.25);
+      }
+
+      /* Packages */
+      .packages {
+        max-width: 1100px;
+        margin: 60px auto;
+        padding: 30px 20px 60px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+      .packages h2 {
+        font-size: 32px;
+        margin-bottom: 30px;
+        color: var(--accent2);
+      }
+      .package-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+      }
+      .package {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: transform 0.28s, box-shadow 0.28s;
+      }
+      .package:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+      }
+      .package img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
+      .package h3 {
+        margin: 15px;
+        font-size: 20px;
+      }
+      .package p {
+        margin: 0 15px 20px;
+        color: #666;
+        font-size: 15px;
+      }
+      .package button {
+        margin: 0 15px 20px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--accent1), var(--accent2));
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .package button:hover {
+        opacity: 0.95;
+      }
+
+      /* About */
+      .about {
+        background: #fff6f2;
+        padding: 60px 20px;
+        text-align: center;
+      }
+      .about h2 {
+        font-size: 30px;
+        color: var(--accent2);
+        margin-bottom: 20px;
+      }
+      .about p {
+        max-width: 800px;
+        margin: 0 auto;
+        font-size: 17px;
+        line-height: 1.6;
+        color: #444;
+      }
+
+      /* Footer */
+      footer {
+        background: #222;
+        color: #ccc;
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+      }
+
+      /* responsive tweaks */
+      @media (max-width: 720px) {
+        #intro-text {
+          font-size: 22px;
+        }
+        .welcome-top {
+          font-size: 14px;
+        }
+        .caption {
+          font-size: 14px;
+          max-width: 90%;
+          left: 14px;
+          right: 14px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Intro Overlay -->
+    <div id="intro" aria-hidden="false">
+      <div id="intro-card" role="dialog" aria-label="Welcome">
+        <h1 id="intro-text" class="cursor-blink"></h1>
+        <div id="intro-sub">Discover India — the journey begins shortly</div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content" aria-hidden="true">
+      <!-- Header -->
+      <header>
+        <div class="brand">🌏 Indian Tour & Travels</div>
+        <nav>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Packages</a></li>
+            <li><a href="#">Guide</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- Hero Slider -->
+      <section class="hero-slider" id="hero" aria-label="Hero slider">
+        <div class="welcome-top">Welcome to Indian Tour & Travels</div>
+
+        <div class="slides" id="slides">
+          <div class="slide">
+            <img src="albrt.jpeg" alt="Albert Hall Museum — Jaipur" />
+            <div class="caption">Albert Hall Museum — Sunrise experience</div>
+          </div>
+          <div class="slide">
+            <img src="amer.jpeg" alt="Amer Fort — Jaipur" />
+            <div class="caption">Amer Fort — The Pink City & royal forts</div>
+          </div>
+          <div class="slide">
+            <img src="hawa.jpeg" alt="Hawa Mahal — Jaipur" />
+            <div class="caption">Hawa Mahal — iconic palace facade</div>
+          </div>
+          <div class="slide">
+            <img src="hotel.jpeg" alt="Heritage hotel — Jaipur" />
+            <div class="caption">Heritage Hotels — royal stays</div>
+          </div>
+          <div class="slide">
+            <img src="hills.png" alt="Himalayan mountains" />
+            <div class="caption">Himalayan Escape — Mountain trails</div>
+          </div>
+        </div>
+
+        <div
+          class="ctrl ctrl-left"
+          id="prev"
+          role="button"
+          aria-label="Previous slide"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+          </svg>
+        </div>
+        <div
+          class="ctrl ctrl-right"
+          id="next"
+          role="button"
+          aria-label="Next slide"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+          </svg>
+        </div>
+        <div class="dots" id="dots" role="tablist"></div>
+      </section>
+
+      <!-- Packages -->
+      <section class="packages" id="packages">
+        <h2>Popular Packages</h2>
+        <div class="package-list">
+          <div class="package">
+            <img src="dal.png" alt="Jaipur - The Pink City" />
+            <h3>Jaipur - The Pink City</h3>
+            <p>Explore palaces, forts & local culture in Rajasthan.</p>
+            <button>Book Now</button>
+          </div>
+          <div class="package">
+            <img src="udai.png" alt="Udaipur - The City of Lakes" />
+            <h3>Udaipur - The City of Lakes</h3>
+            <p>Romantic boat rides & royal palaces around Lake Pichola.</p>
+            <button>Book Now</button>
+          </div>
+          <div class="package">
+            <img src="Jaisalmer-Fort.jpg" alt="Jaisalmer - The Golden City" />
+            <h3>Jaisalmer - The Golden City</h3>
+            <p>Desert safari, camel rides & golden sandstone forts.</p>
+            <button>Book Now</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="about" id="about">
+        <h2>Why Choose Indian Tour & Travels?</h2>
+        <p>
+          We provide travel experiences from ground level to high class. Our
+          packages cover sightseeing, adventure and authentic Indian food
+          experiences. We are not just an agency — we are a family that welcomes
+          you with warmth and care.
+        </p>
+      </section>
+
+      <!-- Footer -->
+      <footer>
+        <p>© 2025 Indian Tour & Travels | All Rights Reserved</p>
+      </footer>
+    </div>
+
+    <script>
+      (function(){
+        // ----- INTRO TYPEWRITER -----
+        const introEl = document.getElementById('intro');
+        const introTextEl = document.getElementById('intro-text');
+        const mainContent = document.getElementById('main-content');
+        const message = "Welcome to Indian Tour & Travels";
+        const typingSpeed = 80; // ms per char
+        const postDelay = 900; // ms to wait after typing before hiding overlay
+        let idx = 0;
+
+        // Prevent tab-focus scroll while intro
+        document.documentElement.style.overflow = "hidden";
+
+        function typeChar() {
+          if (idx < message.length) {
+            introTextEl.textContent += message.charAt(idx);
+            idx++;
+            setTimeout(typeChar, typingSpeed);
+          } else {
+            // remove cursor blink
+            introTextEl.classList.remove('cursor-blink');
+            setTimeout(hideIntro, postDelay);
+          }
+        }
+
+        function hideIntro(){
+          introEl.classList.add('hidden');
+          // allow scrolling again
+          document.documentElement.style.overflow = "";
+          // mark main content accessible
+          mainContent.setAttribute('aria-hidden','false');
+          // initialize slider after overlay is removed
+          initSlider();
+        }
+
+        // Start typing when DOM ready
+        document.addEventListener('DOMContentLoaded', function(){
+          // small delay so user sees overlay transition
+          setTimeout(typeChar, 250);
+          // allow user to skip intro by clicking (optional)
+          introEl.addEventListener('click', function(e){
+            if (!introEl.classList.contains('hidden')) {
+              // fast-forward typing
+              introTextEl.textContent = message;
+              introTextEl.classList.remove('cursor-blink');
+              setTimeout(hideIntro, 200);
+            }
+          }, { once:true });
+        });
+
+        // ----- SLIDER (initialized after intro hides) -----
+        let slidesContainer, totalSlides, dotsContainer, prevBtn, nextBtn;
+        let current = 0;
+        let timer = null;
+        const intervalMs = 3000;
+
+        function initSlider(){
+          slidesContainer = document.getElementById('slides');
+          totalSlides = slidesContainer ? slidesContainer.children.length : 0;
+          dotsContainer = document.getElementById('dots');
+          prevBtn = document.getElementById('prev');
+          nextBtn = document.getElementById('next');
+
+          if(!slidesContainer || totalSlides <= 1) return;
+
+          // create dots
+          dotsContainer.innerHTML = '';
+          for(let i=0;i<totalSlides;i++){
+            const d = document.createElement('div');
+            d.className = 'dot' + (i===0 ? ' active' : '');
+            d.dataset.index = i;
+            d.setAttribute('role','tab');
+            d.setAttribute('aria-label','Slide '+(i+1));
+            dotsContainer.appendChild(d);
+          }
+          const dots = [...dotsContainer.children];
+
+          function update(){
+            slidesContainer.style.transform = `translateX(-${current*100}%)`;
+            dots.forEach((dot,i)=> dot.classList.toggle('active', i===current));
+          }
+          function next(){ current = (current + 1) % totalSlides; update(); }
+          function prev(){ current = (current - 1 + totalSlides) % totalSlides; update(); }
+
+          function startAuto(){ stopAuto(); timer = setInterval(next, intervalMs); }
+          function stopAuto(){ if(timer){ clearInterval(timer); timer = null; } }
+
+          // attach controls
+          nextBtn.onclick = ()=>{ next(); startAuto(); };
+          prevBtn.onclick = ()=>{ prev(); startAuto(); };
+          dots.forEach(d => d.onclick = ()=>{ current = +d.dataset.index; update(); startAuto(); });
+
+          // pause on hover
+          const hero = document.getElementById('hero');
+          hero.addEventListener('mouseenter', stopAuto);
+          hero.addEventListener('mouseleave', startAuto);
+
+          // initial
+          update();
+          startAuto();
+        }
+
+        // If user reloads and overlay is already hidden (edge case), init slider:
+        window.addEventListener('load', function(){
+          if (introEl.classList.contains('hidden')) initSlider();
+        });
+
+      })();
+    </script>
+  </body>
+</html>

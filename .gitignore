@@ -2,7 +2,7 @@
 config/
 
 # Ignore the uploads folder (too heavy for git)
-assets/images/
+# assets/images/
 
 # Ignore system files
 .DS_Store

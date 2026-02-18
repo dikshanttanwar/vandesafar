@@ -1,0 +1,32 @@
+name: 🚀 Deploy to InfinityFree
+
+on:
+  push:
+    branches:
+      - main  # ⚠️ Check if your branch is 'main' or 'master' (usually 'main')
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # ⚠️ IMPORTANT: This puts files inside your custom domain folder
+          server-dir: /vandesafar.in/htdocs/
+          
+          # 🛑 SAFETY: This prevents uploading heavy junk files
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/package.json
+            **/package-lock.json
+            **/README.md

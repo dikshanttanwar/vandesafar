@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
+    <title>VandeSafar</title>
     <link rel="stylesheet" href='assets/css/main.css'>
     <link rel="stylesheet" href='assets/css/about.css'>
     <script type="module" defer src='assets/js/modules/about.js'></script>

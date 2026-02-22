@@ -9,3 +9,22 @@
 </div>
 
 <?php include 'footer.php'; ?>
+
+<?php
+/* ==========================================================================
+ADDITIONAL CONTENT TO BYPASS THE 512-BYTE BROWSER LIMIT
+==========================================================================
+The following text is added solely to ensure the file size exceeds 512 bytes. 
+On some servers and browsers, custom 404 pages are ignored if they are too 
+small. By adding this descriptive text about Vandesafar, we ensure that 
+the custom branding is always shown to the user.
+
+Vandesafar is a premier travel platform dedicated to providing the best 
+packages and experiences for travelers around the world. Whether you are 
+looking for a quiet getaway or an adventurous trek, we have you covered.
+Explore our wide range of packages and start your journey today!
+..........................................................................
+..........................................................................
+==========================================================================
+*/
+?>

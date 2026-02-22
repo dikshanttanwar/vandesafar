@@ -1,5 +1,13 @@
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-<!-- <?php include_once "./config/db_connect.php" ?> -->
+<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+
+<link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/png" sizes="192x192" href="assets/images/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/images/android-chrome-512x512.jpg">
 </head>
 
 <body>
@@ -17,7 +25,7 @@
 
     <header class="main-header">
         <div class="container">
-            <a href="/travelSite" class="logo">
+            <a href="/" class="logo">
                 Vande<span>Safar</span>
             </a>
 

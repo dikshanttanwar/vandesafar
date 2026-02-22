@@ -34,7 +34,7 @@
             <div class="footer-col links-col">
                 <h4 class="toggle-header">Company</h4>
                 <ul class="footer-links">
-                    <li><a href="about.php">About Us</a></li>
+                    <li><a href="about-us.php">About Us</a></li>
                     <li><a href="#">Careers</a></li>
                     <li><a href="#">Travel Guides</a></li>
                     <li><a href="contact.php">Contact Us</a></li>

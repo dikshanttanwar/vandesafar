@@ -1,4 +1,5 @@
 <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <?php include_once "./config/db_connect.php" ?> -->
 <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 
 <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">

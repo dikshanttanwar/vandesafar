@@ -45,11 +45,13 @@
                         <div class="img-wrapper"><img src="assets/images/home-page-banner-image.webp" alt="Travel 1">
                         </div>
                         <div class="img-wrapper"><img
-                                src="assets/images/city-sea-pattaya-thailand-260nw-2234604393.webp" alt="Travel 2">
+                                src="https://images.unsplash.com/photo-1649073868642-bcbbd06239d8?q=80&w=1026&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Travel 2">
                         </div>
                     </div>
                     <div class="collage-col col-up">
-                        <div class="img-wrapper"><img src="assets/images/so-maldives-landing-page-carousel-new-2.jpg"
+                        <div class="img-wrapper"><img
+                                src="https://images.unsplash.com/photo-1477587458883-47145ed94245?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                 alt="Travel 3"></div>
                         <div class="img-wrapper"><img src="assets/images/home-page-banner-mobile-image.webp"
                                 alt="Travel 4"></div>
@@ -128,9 +130,7 @@
                                     </div>
                                     <h3><?php echo $row['package_title']; ?></h3>
                                     <p><?php echo substr($row['package_description'], 0, 80); ?>...</p>
-                                    <a href="contact.php?package=<?php echo urlencode($row['package_title']); ?>"
-                                        class="btn-book">Book
-                                        Now</a>
+                                    <a href="package-details.php?id=<?php echo $row['id']; ?>" class="btn-book">View Details</a>
                                 </div>
                             </div>
                             <?php $delay += 0.1; endwhile; ?>

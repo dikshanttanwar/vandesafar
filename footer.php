@@ -7,58 +7,55 @@
                 <a href="index.php" class="footer-logo">
                     Vande<span>Safar</span>
                 </a>
-
-                <!-- <div class="newsletter-card">
-                    <h3>Subscribe to our Newsletter</h3>
-                    <p>Get the latest travel deals and insights!</p>
-                    <form class="newsletter-form">
-                        <div class="input-group">
-                            <input type="text" placeholder="Name *" required>
-                            <input type="email" placeholder="Email *" required>
-                        </div>
-                        <button type="submit" class="btn-subscribe">Sign Up</button>
-                    </form>
-                </div> -->
+                <p class="tagline">Crafting unforgettable journeys across the globe with premium experiences and trusted service.</p>
             </div>
 
             <div class="footer-col links-col">
-                <h4 class="toggle-header">Destinations</h4>
+                <h4>Destinations</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Europe Tours</a></li>
-                    <li><a href="#">Asia Adventures</a></li>
-                    <li><a href="#">North America</a></li>
-                    <li><a href="#">Trending Cities</a></li>
+                    <li><a href="#">Rajasthan Tours</a></li>
+                    <li><a href="#">Kerala Backwaters</a></li>
+                    <li><a href="#">Goa Beaches</a></li>
+                    <li><a href="#">Himalayan Treks</a></li>
+                    <li><a href="#">Golden Triangle</a></li>
                 </ul>
             </div>
 
             <div class="footer-col links-col">
-                <h4 class="toggle-header">Company</h4>
+                <h4>Company</h4>
                 <ul class="footer-links">
                     <li><a href="about-us.php">About Us</a></li>
                     <li><a href="#">Careers</a></li>
-                    <li><a href="#">Travel Guides</a></li>
+                    <li><a href="#">Travel Blog</a></li>
                     <li><a href="contact.php">Contact Us</a></li>
                 </ul>
             </div>
 
             <div class="footer-col links-col">
-                <h4 class="toggle-header">Support</h4>
+                <h4>Support</h4>
                 <ul class="footer-links">
                     <li><a href="#">Help Center</a></li>
                     <li><a href="#">Cancellation Policy</a></li>
-                    <li><a href="#">Safety Information</a></li>
+                    <li><a href="#">Safety Guidelines</a></li>
                 </ul>
 
-                <!-- <div class="social-icons">
-                    <a href="#" aria-label="Facebook">F</a> <a href="#" aria-label="Instagram">I</a>
-                    <a href="#" aria-label="Twitter">T</a>
-                    <a href="#" aria-label="YouTube">Y</a>
-                </div> -->
+                <h4 style="margin-top: 35px;">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#" class="fb" aria-label="Facebook"><i class="ri-facebook-fill"></i></a> 
+                    <a href="#" class="ig" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+                    <a href="#" class="tw" aria-label="X (Twitter)"><i class="ri-twitter-x-line"></i></a>
+                    <a href="#" class="yt" aria-label="YouTube"><i class="ri-youtube-fill"></i></a>
+                </div>
             </div>
 
         </div>
         <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> TravelGo Pvt. Ltd. All Rights Reserved.</p>
+            <p>&copy; <?php echo date("Y"); ?> VandeSafar Tour & Travels. All Rights Reserved.</p>
+            <div class="trust-badges">
+                <img src="https://cdn-icons-png.flaticon.com/128/196/196578.png" alt="Visa">
+                <img src="https://cdn-icons-png.flaticon.com/128/196/196561.png" alt="Mastercard">
+                <img src="https://cdn-icons-png.flaticon.com/128/196/196566.png" alt="PayPal">
+            </div>
             <div class="legal-links">
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms & Conditions</a>
@@ -73,7 +70,7 @@
 </html>
 
 <a target="_blank" class="whatsapp-icon" aria-label="Whatsapp"
-    href="https://api.whatsapp.com/send/?phone=6378138368&text&type=phone_number&app_absent=0">
+    href="https://api.whatsapp.com/send/?phone=9887700193&text&type=phone_number&app_absent=0">
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_615_8098)">
             <path

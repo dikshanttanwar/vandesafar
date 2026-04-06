@@ -236,7 +236,7 @@ if (isset($_POST['add_btn'])) {
             </div>
 
             <div class="form-group">
-                <label>Price ($)</label>
+                <label>Price</label>
                 <input type="number" name="price" step="0.01" placeholder="e.g. 500.00" required>
             </div>
 

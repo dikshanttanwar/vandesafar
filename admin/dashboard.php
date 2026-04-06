@@ -290,7 +290,7 @@ if (isset($_GET['delete_package'])) {
                                 <img src="../assets/images/<?php echo $pkg['package_image']; ?>" class="img-thumb">
                             </td>
                             <td><strong><?php echo htmlspecialchars($pkg['package_title']); ?></strong></td>
-                            <td style="color: #27ae60; font-weight: bold;">$<?php echo $pkg['package_price']; ?></td>
+                            <td style="color: #27ae60; font-weight: bold;">₹<?php echo $pkg['package_price']; ?></td>
                             <td><?php echo $pkg['package_duration']; ?></td>
                             <td>
                                 <a href="dashboard.php?delete_package=<?php echo $pkg['id']; ?>" class="action-btn"

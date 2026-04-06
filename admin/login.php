@@ -1,3 +1,39 @@
+<?php
+session_start();
+include '../config/db_connect.php';
+$error = "";
+
+if (isset($_POST['login_btn'])) {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    // $password = $_POST['password']; // Don't escape password, we need the raw string to verify
+
+    // 1. Check if username exists
+    $sql = "SELECT * FROM admins WHERE username = '$username' LIMIT 1";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+
+        // 2. Verify the Password (Hash check)
+        // password_verify checks if "password123" matches the hash in DB
+        if ($password == $row['password']) {
+
+            // 3. SUCCESS: Set Session Variables
+            $_SESSION['admin_id'] = $row['id'];
+            $_SESSION['admin_name'] = $row['username'];
+
+            // Redirect to Dashboard
+            header('Location: dashboard.php');
+            exit();
+        } else {
+            $error = "Incorrect Password!";
+        }
+    } else {
+        $error = "User not found!";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,43 +96,7 @@
     </style>
 
     <?php include "../header.php"; ?>
-    <?php include '../config/db_connect.php'; ?>
 
-    <?php
-    session_start();
-    $error = "";
-
-    if (isset($_POST['login_btn'])) {
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
-        $password = mysqli_real_escape_string($conn, $_POST['password']);
-        // $password = $_POST['password']; // Don't escape password, we need the raw string to verify
-    
-        // 1. Check if username exists
-        $sql = "SELECT * FROM admins WHERE username = '$username' LIMIT 1";
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) === 1) {
-            $row = mysqli_fetch_assoc($result);
-
-            // 2. Verify the Password (Hash check)
-            // password_verify checks if "password123" matches the hash in DB
-            if ($password == $row['password']) {
-
-                // 3. SUCCESS: Set Session Variables
-                $_SESSION['admin_id'] = $row['id'];
-                $_SESSION['admin_name'] = $row['username'];
-
-                // Redirect to Dashboard
-                header('Location: dashboard.php');
-                exit();
-            } else {
-                $error = "Incorrect Password!";
-            }
-        } else {
-            $error = "User not found!";
-        }
-    }
-    ?>
 
     <main class="login-box">
         <h2>Admin Panel</h2>

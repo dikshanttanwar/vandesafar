@@ -11,9 +11,6 @@
     <?php include 'config/db_connect.php'; ?>
 
     <?php
-    // ==========================================
-    // 1. BACKEND LOGIC: SEARCH & FILTER
-    // ==========================================
     
     // Initialize the "WHERE" clause of our SQL query
     // By default, 1=1 is a trick that means "True" (selects everything)
@@ -40,7 +37,7 @@
     }
 
     // FINAL SQL QUERY
-// We combine the base query with our dynamic filters
+    // We combine the base query with our dynamic filters
     $sql = "SELECT * FROM packages $whereClause ORDER BY id DESC";
     $result = $conn->query($sql);
     ?>
@@ -81,10 +78,12 @@
                                     <h3><?php echo $row['package_title']; ?></h3>
                                     <p><?php echo substr($row['package_description'], 0, 100); ?>...</p>
 
-                                    <a href="contact.php?package=<?php echo urlencode($row['package_title']); ?>"
+                                    <a href="package-details.php?id=<?php echo $row['id']; ?>" class="btn btn-primary btn-book">Book Now</a>
+
+                                    <!-- <a href="contact.php?package=<?php echo urlencode($row['package_title']); ?>"
                                         class="btn-book">
                                         Book Now
-                                    </a>
+                                    </a> -->
                                 </div>
                             </div>
 

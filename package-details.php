@@ -48,6 +48,7 @@ if (isset($_POST['book_btn'])) {
     $b_departure = $_POST['departure_date'] ?? '';
     $b_adults = $_POST['adults'] ?? 0;
     $b_children = $_POST['children'] ?? 0;
+    $b_vehicle = $_POST['vehicle_option'] ?? 'Standard Package';
 
     if (empty($b_name) || empty($b_email) || empty($b_phone)) {
         $alert_msg = "Please fill in all required fields.";
@@ -92,6 +93,10 @@ if (isset($_POST['book_btn'])) {
                     <tr>
                         <td style='padding: 10px; border: 1px solid #ddd; background: #f9f9f9;'><strong>Guests:</strong></td>
                         <td style='padding: 10px; border: 1px solid #ddd;'>$b_adults Adults, $b_children Children</td>
+                    </tr>
+                    <tr>
+                        <td style='padding: 10px; border: 1px solid #ddd; background: #f9f9f9;'><strong>Vehicle Option:</strong></td>
+                        <td style='padding: 10px; border: 1px solid #ddd;'>$b_vehicle</td>
                     </tr>
                 </table>
             </div>";
@@ -260,16 +265,23 @@ foreach ($paragraphs as $p) {
 
             </div>
 
-            <!-- RIGHT SIDEBAR (BOOKING) -->
             <div class="right-sidebar">
+                <?php
+                // Fetch Vehicle Options safely
+                $vehicle_options = [];
+                if (!empty($package['price_cab']) && $package['price_cab'] > 0) $vehicle_options['Cab'] = $package['price_cab'];
+                if (!empty($package['price_tempo']) && $package['price_tempo'] > 0) $vehicle_options['Traveller Tempo'] = $package['price_tempo'];
+                if (!empty($package['price_minibus']) && $package['price_minibus'] > 0) $vehicle_options['Mini Bus'] = $package['price_minibus'];
+                if (!empty($package['price_bus']) && $package['price_bus'] > 0) $vehicle_options['Bus'] = $package['price_bus'];
+
+                $lowest_vehicle_price = !empty($vehicle_options) ? min($vehicle_options) : $package['package_price'];
+                ?>
                 <div class="booking-widget sticky-widget">
                     <div class="widget-header">
                         <div class="price-box">
                             <span class="currency">₹</span>
-                            <span class="amount"><?php echo $price; ?></span>
-                            <span class="per-person">/ person</span>
-                        </div>
-                        <div class="strike-price">Was ₹<?php echo number_format($package['package_price'] * 1.2, 2); ?>
+                            <span class="amount"><?php echo number_format($lowest_vehicle_price, 2); ?></span>
+                            <span class="per-person" style="font-size:0.85rem; margin-left:5px;">Starting Price</span>
                         </div>
                     </div>
                     <div class="widget-body">
@@ -315,6 +327,19 @@ endif; ?>
                                 </div>
                             </div>
 
+                            <div class="input-group" style="margin-bottom: 15px;">
+                                <label><i class="fas fa-car-side"></i> Vehicle Option *</label>
+                                <select name="vehicle_option" id="vehicleOption" required onchange="updateTotal()" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: #fff;">
+                                    <?php if(empty($vehicle_options)): ?>
+                                        <option value="Standard Package" data-price="<?php echo $lowest_vehicle_price; ?>">Standard Package (₹<?php echo number_format($lowest_vehicle_price, 2); ?>)</option>
+                                    <?php else: ?>
+                                        <?php foreach($vehicle_options as $name => $v_price): ?>
+                                            <option value="<?php echo $name; ?>" data-price="<?php echo $v_price; ?>"><?php echo $name; ?> (₹<?php echo number_format($v_price, 2); ?>)</option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+
                             <div class="flex-row">
                                 <div class="input-group">
                                     <label><i class="fas fa-user"></i> Adults</label>
@@ -352,9 +377,8 @@ endif; ?>
                             <hr class="summary-divider">
                             <div class="summary-row total-row">
                                 <span>Total Estimated</span>
-                                <!-- Guest counter defaults to 2 adults -->
                                 <span class="total-est"
-                                    id="total-val">$<?php echo number_format($package['package_price'] * 2, 2); ?></span>
+                                    id="total-val">₹<?php echo number_format($lowest_vehicle_price, 2); ?></span>
                             </div>
 
                             <button type="submit" name="book_btn" class="btn-book-now">Request to Book</button>
@@ -370,22 +394,21 @@ endif; ?>
 
     <!-- Script to dynamically update total estimate in sidebar -->
     <script>
-        const adultsInput = document.getElementById('adults');
-        const childrenInput = document.getElementById('children');
+        const vehicleSelect = document.getElementById('vehicleOption');
         const totalVal = document.getElementById('total-val');
-        const pricePerPerson = <?php echo $package['package_price']; ?>;
 
         function updateTotal() {
-            const adults = parseInt(adultsInput.value) || 0;
-            const children = parseInt(childrenInput.value) || 0;
-            // Assuming children cost the same or half? The user didn't specify. I'll just charge per person equally or calculate normally.
-            const total = ((adults + children) * pricePerPerson).toFixed(2);
-            totalVal.textContent = '$' + total;
+            // Price is only dependent on vehicle option now
+            if (vehicleSelect) {
+                const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
+                const price = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+                totalVal.textContent = '₹' + price.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            }
         }
 
-        adultsInput.addEventListener('change', updateTotal);
-        childrenInput.addEventListener('change', updateTotal);
-        // Buttons already map to updateTotal in inline onclick
+        if (vehicleSelect) {
+            vehicleSelect.addEventListener('change', updateTotal);
+        }
     </script>
 
     <?php include 'footer.php'; ?>

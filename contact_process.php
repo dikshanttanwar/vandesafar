@@ -29,10 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </table>
     </div>";
 
-    if (send_site_mail($to, $subject, $message, $email)) {
+    $mail_error = "";
+    if (send_site_mail($to, $subject, $message, $email, $mail_error)) {
         echo "<script>alert('Callback request sent successfully!'); window.history.back();</script>";
     } else {
-        echo "<script>alert('Failed to send request. Please try again later.'); window.history.back();</script>";
+        echo "<script>alert('Failed to send request. Error: " . addslashes($mail_error) . "'); window.history.back();</script>";
     }
 } else {
     header("Location: index.php");

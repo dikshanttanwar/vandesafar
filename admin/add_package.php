@@ -17,6 +17,13 @@ if (isset($_POST['add_btn'])) {
     $title = mysqli_real_escape_string($conn, $_POST['title']);
     $desc = mysqli_real_escape_string($conn, $_POST['desc']);
     $price = (float) $_POST['price'];
+
+    // Vehicle Prices
+    $price_cab = !empty($_POST['price_cab']) ? (float) $_POST['price_cab'] : "NULL";
+    $price_tempo = !empty($_POST['price_tempo']) ? (float) $_POST['price_tempo'] : "NULL";
+    $price_minibus = !empty($_POST['price_minibus']) ? (float) $_POST['price_minibus'] : "NULL";
+    $price_bus = !empty($_POST['price_bus']) ? (float) $_POST['price_bus'] : "NULL";
+
     $duration = mysqli_real_escape_string($conn, $_POST['duration']);
 
     // File Upload Logic
@@ -34,8 +41,8 @@ if (isset($_POST['add_btn'])) {
         if (move_uploaded_file($_FILES['package_image']['tmp_name'], $target_file)) {
 
             // Insert into Database
-            $sql = "INSERT INTO packages (package_title, package_description, package_price, package_duration, package_image) 
-                    VALUES ('$title', '$desc', '$price', '$duration', '$final_image_name')";
+            $sql = "INSERT INTO packages (package_title, package_description, package_price, package_duration, package_image, price_cab, price_tempo, price_minibus, price_bus) 
+                    VALUES ('$title', '$desc', '$price', '$duration', '$final_image_name', $price_cab, $price_tempo, $price_minibus, $price_bus)";
 
             if (mysqli_query($conn, $sql)) {
                 $msg = "Package added successfully!";
@@ -236,8 +243,32 @@ if (isset($_POST['add_btn'])) {
             </div>
 
             <div class="form-group">
-                <label>Price</label>
+                <label>Starting Price (Displayed on Package Cards)</label>
                 <input type="number" name="price" step="0.01" placeholder="e.g. 500.00" required>
+            </div>
+
+            <div style="background: #f0f4f8; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #dcdde1;">
+                <label style="color: #2c3e50; font-size: 1.05rem; margin-bottom: 10px;">Vehicle Options Rates (Leave blank if unavailable)</label>
+                
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Cab Rate (₹)</label>
+                    <input type="number" name="price_cab" step="0.01" placeholder="e.g. 3000.00">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Traveller Tempo Rate (₹)</label>
+                    <input type="number" name="price_tempo" step="0.01" placeholder="e.g. 5000.00">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label>Mini Bus Rate (₹)</label>
+                    <input type="number" name="price_minibus" step="0.01" placeholder="e.g. 8000.00">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Standard Bus Rate (₹)</label>
+                    <input type="number" name="price_bus" step="0.01" placeholder="e.g. 12000.00">
+                </div>
             </div>
 
             <div class="form-group">

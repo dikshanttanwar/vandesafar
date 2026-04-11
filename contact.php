@@ -20,11 +20,11 @@ if (isset($_GET['package'])) {
 if (isset($_POST['submit_btn']) || isset($_POST['ajax'])) {
 
     // 1. Capture & Sanitize Data
-    $name = htmlspecialchars(strip_tags(trim($_POST['name'])));
-    $email = htmlspecialchars(strip_tags(trim($_POST['email'])));
-    $phone = htmlspecialchars(strip_tags(trim($_POST['phone'])));
-    $subject = htmlspecialchars(strip_tags(trim($_POST['subject'])));
-    $message = htmlspecialchars(strip_tags(trim($_POST['message'])));
+    $name = htmlspecialchars(strip_tags(trim($_POST['name'] ?? '')));
+    $email = htmlspecialchars(strip_tags(trim($_POST['email'] ?? '')));
+    $phone = htmlspecialchars(strip_tags(trim($_POST['phone'] ?? '')));
+    $subject = htmlspecialchars(strip_tags(trim($_POST['subject'] ?? '')));
+    $message = htmlspecialchars(strip_tags(trim($_POST['message'] ?? '')));
 
     // 2. Server-Side Validation
     if (empty($name) || empty($email) || empty($message)) {
@@ -67,7 +67,8 @@ if (isset($_POST['submit_btn']) || isset($_POST['ajax'])) {
                 </table>
             </div>";
 
-        if (send_site_mail($to, $email_subject, $email_body, $email)) {
+        $mail_error = "";
+        if (send_site_mail($to, $email_subject, $email_body, $email, $mail_error)) {
             $alert_msg = "Message sent successfully! We will contact you shortly.";
             $alert_class = "success";
 
@@ -75,7 +76,7 @@ if (isset($_POST['submit_btn']) || isset($_POST['ajax'])) {
             $name = $email = $phone = $subject = $message = "";
         }
         else {
-            $alert_msg = "Failed to send message. Please try again later.";
+            $alert_msg = "Failed to send message. Error: " . $mail_error;
             $alert_class = "error";
         }
 

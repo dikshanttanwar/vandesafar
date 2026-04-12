@@ -297,35 +297,4 @@
     .contact-form-col { padding: 2rem 1.5rem; }
 }
 
-/* --- Toast Notifications --- */
-.toast-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.toast {
-    background: #fff;
-    color: #333;
-    padding: 16px 24px;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transform: translateX(120%);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    font-weight: 500;
-}
-.toast.show {
-    transform: translateX(0);
-    opacity: 1;
-}
-.toast-success { border-left: 4px solid #2ecc71; }
-.toast-success i { color: #2ecc71; font-size: 1.4rem; }
-.toast-error { border-left: 4px solid #e74c3c; }
-.toast-error i { color: #e74c3c; font-size: 1.4rem; }
+

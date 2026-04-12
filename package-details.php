@@ -1,19 +1,5 @@
 <?php
 // package-details.php
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Package Details | VandeSafar</title>
-    <link rel="stylesheet" href='assets/css/main.css'>
-    <link rel="stylesheet" href='assets/css/packageDetail.css'>
-    <!-- Ensure FontAwesome is loaded if header doesn't have it -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <?php include "header.php"; ?>
-    <?php
 include 'config/db_connect.php';
 include 'config/mail_config.php';
 
@@ -39,7 +25,7 @@ $description = $package['package_description'];
 $alert_msg = "";
 $alert_class = "";
 
-if (isset($_POST['book_btn'])) {
+if (isset($_POST['book_btn']) || isset($_POST['ajax'])) {
     $b_name = $_POST['name'] ?? '';
     $b_phone = $_POST['phone'] ?? '';
     $b_email = $_POST['email'] ?? '';
@@ -101,17 +87,37 @@ if (isset($_POST['book_btn'])) {
                 </table>
             </div>";
 
-        if (send_site_mail($to, $email_subject, $email_body, $b_email)) {
+        $mail_error = "";
+        if (send_site_mail($to, $email_subject, $email_body, $b_email, $mail_error)) {
             $alert_msg = "Booking request sent successfully! We will contact you shortly.";
             $alert_class = "success";
         }
         else {
-            $alert_msg = "Failed to send booking request. Please try again later.";
+            $alert_msg = "Failed to send booking request. Error: " . $mail_error;
             $alert_class = "error";
+        }
+
+        // If AJAX request, return JSON securely
+        if (isset($_POST['ajax'])) {
+            header('Content-Type: application/json');
+            echo json_encode(['status' => $alert_class, 'message' => $alert_msg]);
+            exit;
         }
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Details | VandeSafar</title>
+    <link rel="stylesheet" href='assets/css/main.css'>
+    <link rel="stylesheet" href='assets/css/packageDetail.css'>
+    <!-- Ensure FontAwesome is loaded if header doesn't have it -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <?php include "header.php"; ?>
 
     <main class="package-details-main">
         <!-- HERO SECTION -->
@@ -285,13 +291,6 @@ foreach ($paragraphs as $p) {
                         </div>
                     </div>
                     <div class="widget-body">
-                        <?php if ($alert_msg): ?>
-                            <div class="alert <?php echo $alert_class; ?>"
-                                style="margin-bottom: 15px; padding: 10px; border-radius: 4px; <?php echo $alert_class === 'success' ? 'background: #d4edda; color: #155724;' : 'background: #f8d7da; color: #721c24;'; ?>">
-                                <?php echo htmlspecialchars($alert_msg); ?>
-                            </div>
-                        <?php
-endif; ?>
 
                         <form action="" method="POST" class="widget-form">
                             <input type="hidden" name="package_id" value="<?php echo $package_id; ?>">
@@ -392,13 +391,13 @@ endif; ?>
         </div>
     </main>
 
-    <!-- Script to dynamically update total estimate in sidebar -->
+    <!-- Script to dynamically update total estimate in sidebar and Handle AJAX Forms -->
     <script>
+        // --- 1. Vehicle Option Pricing Logic ---
         const vehicleSelect = document.getElementById('vehicleOption');
         const totalVal = document.getElementById('total-val');
 
         function updateTotal() {
-            // Price is only dependent on vehicle option now
             if (vehicleSelect) {
                 const selectedOption = vehicleSelect.options[vehicleSelect.selectedIndex];
                 const price = parseFloat(selectedOption.getAttribute('data-price')) || 0;
@@ -408,6 +407,79 @@ endif; ?>
 
         if (vehicleSelect) {
             vehicleSelect.addEventListener('change', updateTotal);
+        }
+
+        // --- 2. AJAX Form Submissions & Toasts ---
+        const handleAjaxSubmit = (formSelector, btnSelector, actionUrl) => {
+            const form = document.querySelector(formSelector);
+            if (!form) return;
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const submitBtn = form.querySelector(btnSelector);
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span>Sending...</span><i class="ri-loader-4-line ri-spin"></i>';
+                submitBtn.disabled = true;
+
+                const formData = new FormData(form);
+                formData.append("ajax", "1");
+
+                // Target URL is either actionUrl passed, or form's action, or current page.
+                const targetAction = actionUrl || form.getAttribute("action") || window.location.href;
+
+                fetch(targetAction, {
+                    method: "POST",
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                    body: formData,
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    showToast(data.message, data.status);
+                    if (data.status === "success") {
+                        form.reset();
+                        updateTotal(); // reset price dynamically to default vehicle inside dropdown
+                    }
+                })
+                .catch((error) => {
+                    console.error("Fetch Error: ", error);
+                    showToast("Something went wrong. Please check console.", "error");
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+            });
+        };
+
+        // Attach AJAX handlers
+        handleAjaxSubmit(".widget-form", ".btn-book-now");
+        handleAjaxSubmit(".inline-inquiry-form", ".btn-theme", "contact_process.php");
+
+        // --- 3. Toast UI Notification System ---
+        function showToast(message, type) {
+            let toastContainer = document.getElementById("toast-container");
+            if (!toastContainer) {
+                toastContainer = document.createElement("div");
+                toastContainer.id = "toast-container";
+                toastContainer.className = "toast-container";
+                document.body.appendChild(toastContainer);
+            }
+
+            const toast = document.createElement("div");
+            toast.className = `toast toast-${type}`;
+            const icon = type === "success" ? "ri-checkbox-circle-fill" : "ri-error-warning-fill";
+            toast.innerHTML = `<i class="${icon}"></i> <span>${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add("show");
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
         }
     </script>
 

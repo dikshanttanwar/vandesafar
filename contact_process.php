@@ -7,8 +7,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
 
     if (empty($name) || empty($email)) {
-        echo "<script>alert('Please fill in all required fields.'); window.history.back();</script>";
-        exit();
+        if (isset($_POST['ajax'])) {
+            header('Content-Type: application/json');
+            echo json_encode(['status' => 'error', 'message' => 'Please fill in all required fields.']);
+            exit;
+        } else {
+            echo "<script>alert('Please fill in all required fields.'); window.history.back();</script>";
+            exit();
+        }
     }
 
     $to = "admin@vandesafar.in";
@@ -31,9 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $mail_error = "";
     if (send_site_mail($to, $subject, $message, $email, $mail_error)) {
-        echo "<script>alert('Callback request sent successfully!'); window.history.back();</script>";
+        $alert_msg = "Callback request sent successfully!";
+        $alert_class = "success";
     } else {
-        echo "<script>alert('Failed to send request. Error: " . addslashes($mail_error) . "'); window.history.back();</script>";
+        $alert_msg = "Failed to send request. Error: " . $mail_error;
+        $alert_class = "error";
+    }
+
+    if (isset($_POST['ajax'])) {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => $alert_class, 'message' => $alert_msg]);
+        exit;
+    } else {
+        echo "<script>alert('" . addslashes($alert_msg) . "'); window.history.back();</script>";
+        exit;
     }
 } else {
     header("Location: index.php");

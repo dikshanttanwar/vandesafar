@@ -1,5 +1,7 @@
 <?php
 // package-details.php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 include 'config/db_connect.php';
 include 'config/mail_config.php';
 
@@ -432,7 +434,16 @@ foreach ($paragraphs as $p) {
                     headers: { "X-Requested-With": "XMLHttpRequest" },
                     body: formData,
                 })
-                .then((response) => response.json())
+                .then(async (response) => {
+                    const clone = response.clone();
+                    try {
+                        return await response.json();
+                    } catch(err) {
+                        const rawText = await clone.text();
+                        console.error("RAW PHP ERROR TEXT:", rawText);
+                        throw new Error("Server returned non-JSON. View console.");
+                    }
+                })
                 .then((data) => {
                     showToast(data.message, data.status);
                     if (data.status === "success") {
